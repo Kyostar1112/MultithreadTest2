@@ -16,7 +16,8 @@ public:
 		return m_bFinishFlg;
 	}
 
-private:
+	void Cnt(int Num);
 	bool m_bFinishFlg;
-	int m_iCnt
+	int m_iCnt;
+private:
 };
