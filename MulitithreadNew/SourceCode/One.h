@@ -2,6 +2,7 @@
 
 #include<thread>
 #include<Windows.h>
+#include<iostream>
 class clsOne
 
 {
@@ -9,7 +10,7 @@ public:
 	clsOne();
 	~clsOne();
 
-	void Th1(int CntNum, int SleepTime);
+	void Th1(const int CntNum, const int SleepTime);
 
 	bool GetFinishFlg()
 	{
@@ -20,10 +21,9 @@ public:
 	{
 		return m_iCnt;
 	}
+
 private:
 	void Cnt(int CntNum, int SleepTime);
-
 	bool m_bFinishFlg;
 	int m_iCnt;
-
 };

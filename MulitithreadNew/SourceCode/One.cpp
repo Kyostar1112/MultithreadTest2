@@ -13,16 +13,24 @@ clsOne::~clsOne()
 
 void clsOne::Th1(int CntNum, int SleepTime)
 {
-	thread th1([this, CntNum, SleepTime]() {this->Cnt(CntNum, SleepTime); });
-	th1.detach();
+		thread th1([this, CntNum, SleepTime]() {this->Cnt(CntNum, SleepTime); });
+		cout << "スレッド1のアドレス" << th1.get_id() << endl;
+		th1.detach();
 }
 
 void clsOne::Cnt(int CntNum, int SleepTime)
 {
-	Sleep(SleepTime);
-	m_iCnt++;
-	if (m_iCnt > CntNum)
+	while (1)
 	{
-		m_bFinishFlg = true;
+		Sleep(SleepTime);
+		m_iCnt++;
+		if (m_iCnt > CntNum)
+		{
+			m_bFinishFlg = true;
+		}
+		if (m_bFinishFlg)
+		{
+			break;
+		}
 	}
 }

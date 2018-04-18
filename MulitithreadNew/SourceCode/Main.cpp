@@ -2,13 +2,14 @@
 
 const int g_iThreadCnt = 2;
 const int g_iCntTime = 1000;
-const int g_iOneSleepTime = 100;
-const int g_iTwoSleepTime = 40;
+const int g_iOneSleepTime = 10;
+const int g_iTwoSleepTime = 20;
 
 clsMain::clsMain()
 {
 	m_smpOne = make_unique<clsOne>();
 	m_smpTwo = make_unique<clsTwo>();
+
 	m_iTimeCnt = 0;
 }
 
@@ -29,18 +30,22 @@ void clsMain::cMain()
 	{
 		m_vbFinishFlg.push_back(false);
 	}
+
+	m_smpOne->Th1(g_iCntTime, g_iOneSleepTime);
+	m_smpTwo->Th2(g_iCntTime, g_iTwoSleepTime);
+
 	while (1)
 	{
 		m_iTimeCnt++;
 
-		m_smpOne->Th1(g_iCntTime, g_iOneSleepTime);
-		m_smpTwo->Th2(g_iCntTime, g_iTwoSleepTime);
 
-		if (m_iTimeCnt % 2 == 0)
+		if (m_iTimeCnt % 10 == 0)
 		{
-			cout << "メインでの経過カウント" << m_iTimeCnt << endl
-				<< "スレッド1側の経過カウント" << m_smpOne->GetCnt() << endl
-				<< "スレッド2側の経過カウント" << m_smpTwo->GetCnt() << endl << endl;
+			cout << "メインでの経過カウント"	<< m_iTimeCnt << endl
+				<< "スレッド1側のアドレス"		<< endl
+				<< "スレッド1側の経過カウント"	<< m_smpOne->GetCnt() << endl
+				<< "スレッド2側のアドレス"		<< endl
+				<< "スレッド2側の経過カウント"	<< m_smpTwo->GetCnt() << endl << endl;
 		}
 
 		if (m_smpOne->GetFinishFlg() && !m_vbFinishFlg[0])
