@@ -1,7 +1,7 @@
 #pragma once
 
 #include<thread>
-
+#include<Windows.h>
 class clsOne
 
 {
@@ -17,7 +17,14 @@ public:
 	}
 
 	void Cnt(int Num);
+
+	int GetCnt()
+	{
+		return m_iCnt;
+	}
+private:
+
 	bool m_bFinishFlg;
 	int m_iCnt;
-private:
+
 };

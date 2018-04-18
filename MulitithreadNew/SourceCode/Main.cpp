@@ -1,10 +1,10 @@
 #include"Main.h"
 
-const int g_iCntTime = 1000;
 
 clsMain::clsMain()
 {
 	m_smpOne = make_unique<clsOne>();
+	m_iTimeCnt = 0;
 }
 
 clsMain::~clsMain()
@@ -21,12 +21,23 @@ void clsMain::cMain()
 {
 	while (1)
 	{
-		thread th1([]() {
-			if (m_smpOne->m_iCnt > m_smpOne->Num)
-			{
-				m_smpOne->m_bFinishFlg = true;
-			}
-		})
-		/*m_smpOne->Th1(g_iCntTime);*/
+		m_iTimeCnt++;
+		thread th1(	[this]() {
+			m_smpOne->Cnt(1000);
+		});
+		th1.detach();
+
+		if (m_iTimeCnt % 10 == 0)
+		{
+			cout << "メインでの経過カウント" << m_iTimeCnt << endl
+				<< "スレッド1側の経過カウント" << m_smpOne->GetCnt() << endl << endl;
+		}
+
+		if (m_smpOne->GetFinishFlg())
+		{
+			cout << "スレッド1終了" << endl;
+			break;
+		}
 	}
+	getchar();
 }
