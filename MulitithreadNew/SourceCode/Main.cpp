@@ -1,9 +1,14 @@
 #include"Main.h"
 
+const int g_iThreadCnt = 2;
+const int g_iCntTime = 1000;
+const int g_iOneSleepTime = 100;
+const int g_iTwoSleepTime = 40;
 
 clsMain::clsMain()
 {
 	m_smpOne = make_unique<clsOne>();
+	m_smpTwo = make_unique<clsTwo>();
 	m_iTimeCnt = 0;
 }
 
@@ -19,23 +24,39 @@ void main()
 
 void clsMain::cMain()
 {
+	m_vbFinishFlg.reserve(g_iThreadCnt);
+	for (unsigned int i = 0; i < g_iThreadCnt; i++)
+	{
+		m_vbFinishFlg.push_back(false);
+	}
 	while (1)
 	{
 		m_iTimeCnt++;
-		thread th1(	[this]() {
-			m_smpOne->Cnt(1000);
-		});
-		th1.detach();
 
-		if (m_iTimeCnt % 10 == 0)
+		m_smpOne->Th1(g_iCntTime, g_iOneSleepTime);
+		m_smpTwo->Th2(g_iCntTime, g_iTwoSleepTime);
+
+		if (m_iTimeCnt % 2 == 0)
 		{
 			cout << "メインでの経過カウント" << m_iTimeCnt << endl
-				<< "スレッド1側の経過カウント" << m_smpOne->GetCnt() << endl << endl;
+				<< "スレッド1側の経過カウント" << m_smpOne->GetCnt() << endl
+				<< "スレッド2側の経過カウント" << m_smpTwo->GetCnt() << endl << endl;
 		}
 
-		if (m_smpOne->GetFinishFlg())
+		if (m_smpOne->GetFinishFlg() && !m_vbFinishFlg[0])
 		{
-			cout << "スレッド1終了" << endl;
+			cout << "スレッド1終了" << endl << endl;
+			m_vbFinishFlg[0] = true;
+		}
+		if (m_smpTwo->GetFinishFlg() && !m_vbFinishFlg[1])
+		{
+			cout << "スレッド2終了" << endl << endl;
+			m_vbFinishFlg[1] = true;
+		}
+
+		if (m_smpOne->GetFinishFlg() &&
+			m_smpTwo->GetFinishFlg())
+		{
 			break;
 		}
 	}

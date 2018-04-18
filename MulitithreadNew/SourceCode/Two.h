@@ -2,14 +2,14 @@
 
 #include<thread>
 #include<Windows.h>
-class clsOne
+class clsTwo
 
 {
 public:
-	clsOne();
-	~clsOne();
+	clsTwo();
+	~clsTwo();
 
-	void Th1(int CntNum, int SleepTime);
+	void Th2(int CntNum, int SleepTime);
 
 	bool GetFinishFlg()
 	{
@@ -21,6 +21,7 @@ public:
 		return m_iCnt;
 	}
 private:
+
 	void Cnt(int CntNum, int SleepTime);
 
 	bool m_bFinishFlg;

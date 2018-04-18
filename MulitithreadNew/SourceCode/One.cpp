@@ -11,16 +11,17 @@ clsOne::~clsOne()
 {
 }
 
-void clsOne::Th1(int Num)
+void clsOne::Th1(int CntNum, int SleepTime)
 {
-	thread th1([this,Num]() {this->Cnt(Num); });
+	thread th1([this, CntNum, SleepTime]() {this->Cnt(CntNum, SleepTime); });
+	th1.detach();
 }
 
-void clsOne::Cnt(int Num)
+void clsOne::Cnt(int CntNum, int SleepTime)
 {
-	Sleep(100);
+	Sleep(SleepTime);
 	m_iCnt++;
-	if (m_iCnt > Num)
+	if (m_iCnt > CntNum)
 	{
 		m_bFinishFlg = true;
 	}
