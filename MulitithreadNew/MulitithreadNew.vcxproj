@@ -112,10 +112,12 @@
   <ItemGroup>
     <ClInclude Include="SourceCode\Main.h" />
     <ClInclude Include="SourceCode\One.h" />
+    <ClInclude Include="SourceCode\Two.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SourceCode\Main.cpp" />
     <ClCompile Include="SourceCode\One.cpp" />
+    <ClCompile Include="SourceCode\Two.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
